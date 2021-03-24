@@ -13,6 +13,8 @@ using System.Windows.Forms;
 using poc_pcr_for_Tester.GraphPlot;
 using poc_pcr_for_Tester.SerialComm;
 
+//this is master 
+
 namespace poc_pcr_for_Tester
 {
     enum TUBE_INDEX
