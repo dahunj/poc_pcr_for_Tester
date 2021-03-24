@@ -262,6 +262,24 @@ namespace poc_pcr_for_Tester
         {
             //panel_ui
             selectPageYouWantToDisplay(graph);
+
+            //graph process
+            updateOpticDataGraph();
+
+        }
+
+        public void updateOpticDataGraph()
+        {
+            //1. get measured data
+            MatchAndFindOpticDataForResult();
+            //2. find and calculate baseline value with standard deviation 
+            baseCalculationDeviation();
+            //3. scale factor calculation 
+            scaleFactorCalculation();
+            //4. ct cycle calculation 
+            CtCyclesCalculation();
+            //5. update graph 
+            updateAllPlots();
         }
 
         private void graph_Back_Click(object sender, EventArgs e)
@@ -463,11 +481,11 @@ namespace poc_pcr_for_Tester
         {
             if(sm.isFileSaved_In_Local)
             {
-                MatchAndFindOpticDataForResult();
+               //MatchAndFindOpticDataForResult();
             }
             else
             {
-                MatchAndFindOpticDataForResultForRealTime();
+                //MatchAndFindOpticDataForResultForRealTime();
             }
         }
 
@@ -896,9 +914,162 @@ namespace poc_pcr_for_Tester
                     sm.ProcessEndFlag = true;
                 }
             }
-
         }
 
+
+        public double[] baseCalculationDeviation()
+        {
+            int temp;
+
+            double[] base_avg = new double[Plotter.CH_CNT * Plotter.DYE_CNT];
+            double[] base_temp = new double[Plotter.COL_CNT];
+            double[] base_deviation = new double[Plotter.CH_CNT * Plotter.DYE_CNT];
+
+
+            for (int l = 0; l < Plotter.COL_CNT; l++)
+            {
+                base_temp[l] = 0;
+            }
+
+
+            for (int k = 0; k < Plotter.CH_CNT * Plotter.DYE_CNT; k++)
+            {
+                //BaselineVal[k] = 0;
+                base_avg[k] = 0;
+            }
+
+            for (int i = 0; i < 16; i++)
+            {
+                string sigma_scale = "10";//dgv_diagnosis_ct.Rows[i].Cells[1].FormattedValue.ToString();
+
+                double fSigma_scale;
+                fSigma_scale = Convert.ToDouble(sigma_scale);
+                //Int32.TryParse(ct_temp, out iCt_temp);
+                for (int j = 0; j < Plotter.COL_CNT; j++)
+                {
+                    if (Plotter.isThisCycleWouldbeUsedForBaseCal[j] == 1)
+                    {
+                        if (j > Plotter.MaxCycleForBaseCalculation)
+                            Plotter.MaxCycleForBaseCalculation = j;
+
+                        base_temp[j] = Convert.ToDouble(sm.MEASURED_DATA[i, j]);
+
+                        //Int32.TryParse(MEASURED_DATA[i, j], out temp);
+                        base_avg[i] += base_temp[j];
+                    }
+                    else
+                    {
+                        base_temp[j] = 0;
+                    }
+                }
+
+                base_avg[i] = (base_avg[i]) / (Plotter.CycleCntForBaseCal);
+                sm.BaselineVal[i] = base_avg[i];
+
+                for (int m = 0; m < Plotter.COL_CNT; m++)
+                {
+                    if (Plotter.isThisCycleWouldbeUsedForBaseCal[m] == 1)
+                    {
+                        base_temp[m] = Convert.ToDouble(sm.MEASURED_DATA[i, m]);
+
+                        base_deviation[i] += (base_temp[m] - base_avg[i]) * (base_temp[m] - base_avg[i]);
+                    }
+                }
+                base_deviation[i] /= Plotter.CycleCntForBaseCal;
+                base_deviation[i] = Math.Pow(base_deviation[i], 0.5);
+                //Int32.TryParse(MEASURED_DATA[i, 0], out ic_value[i]);
+                //CtlineVal[i] = (double)(iCt_temp * BaselineVal[i]);
+                //ic_value[i] = MEASURED_DATA[i, 0];
+                sm.CtlineVal[i] = base_avg[i] + (fSigma_scale * base_deviation[i]);
+            }
+            return base_deviation;
+        }
+
+        public void scaleFactorCalculation()
+        {
+            for (int i = 0; i < 16; i++)
+            {
+                sm.scaleFactor[i] = (double)(2500 / (2500 - sm.BaselineVal[i]));
+            }
+        }
+
+        public double[] CtCyclesCalculation()
+        {
+            double tempCt = 0;
+            double value = 0;
+
+            for (int i = 0; i < 16; i++)
+            {
+                tempCt = 0;
+                for (int j = 0; j < Plotter.COL_CNT; j++)
+                {
+                    value = (Convert.ToDouble(sm.MEASURED_DATA[i, j]) - sm.BaselineVal[i]) * sm.scaleFactor[i];
+                    if (value < 0) value = 0;
+                    //if (Convert.ToDouble(MEASURED_DATA[i, j]) > CtlineVal[i])
+                    if (value > (sm.CtlineVal[i] - sm.BaselineVal[i]) * sm.scaleFactor[i])
+                    {
+                        Plotter.CtCycles[i] = j; // start at 3 cycles
+                        tempCt = j;
+                        break;
+                    }
+                    else if (value < (sm.CtlineVal[i] - sm.BaselineVal[i]) * sm.scaleFactor[i])
+                    {
+                        Plotter.CtCycles[i] = 0;
+                    }
+                }
+                if (tempCt < 10)
+                {
+
+                }
+                else
+                {
+                    double tempCtline = Convert.ToDouble(sm.MEASURED_DATA[i, (int)tempCt - 1]);
+                    double delta = Math.Abs(((Convert.ToDouble(sm.MEASURED_DATA[i, (int)tempCt]) - tempCtline)) / 100);
+                    delta *= sm.scaleFactor[8];
+                    Plotter.CtCycles[i] = tempCt;
+                    for (int k = 0; k < 100; k++)
+                    {
+                        Plotter.CtCycles[i] += 0.01;
+                        if (((tempCtline - sm.BaselineVal[i]) * sm.scaleFactor[i] + (delta * k)) >= (sm.CtlineVal[i] - sm.BaselineVal[i]) * sm.scaleFactor[i])
+                        {
+                            Plotter.CtCycles[i] += sm.scaleFactor[i];
+                            break;
+                        }
+                        //else
+                        //{
+                        //    if (k == 99) Plotter.CtCycles[i] = 0;
+                        //}
+                    }
+
+                    if (Plotter.CtCycles[i] < 12) Plotter.CtCycles[i] = 0;
+                }
+
+            }
+
+            return Plotter.CtCycles;
+        }
+
+        public void updateAllPlots()
+        {
+            /*
+            Plotter.ResetAllPlots(formsPlot1, formsPlot2, formsPlot3, formsPlot4);
+            for (int i = 0; i < Plotter.CH_CNT; i++)
+            {
+                if (chkBox_baselineNoScale.Checked || chkBox_BaselineScale.Checked)
+                {
+                    for (int j = 0; j < Plotter.CH_CNT * Plotter.DYE_CNT; j++)
+                    {
+                        zerosetValArray[j] = (CtlineVal[j] - BaselineVal[j]) * scaleFactor[j];
+                    }
+                    updateScottPlot(i, zerosetValArray);
+                }
+                else
+                {
+                    updateScottPlot(i, CtlineVal);
+                }
+            }
+            */
+        }
     }
 
 }

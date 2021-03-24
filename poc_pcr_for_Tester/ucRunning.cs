@@ -13,6 +13,7 @@ namespace poc_pcr_for_Tester
     public partial class ucRunning : UserControl
     {
         SharedMemory sm = SharedMemory.GetInstance();
+
         public event EventHandler running_NextPage_Event;
         public ucRunning()
         {
