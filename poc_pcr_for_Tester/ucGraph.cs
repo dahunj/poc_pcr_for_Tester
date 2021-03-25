@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using ScottPlot;
 using poc_pcr_for_Tester.GraphPlot;
+using System.IO;
 
 namespace poc_pcr_for_Tester
 {
@@ -18,6 +19,11 @@ namespace poc_pcr_for_Tester
         SharedMemory sm = SharedMemory.GetInstance();
 
         public event EventHandler graph_Back_Event;
+        
+        int iRoutine_cnt = 0;
+        int iTube_no = 0;
+        int iDye = 0;
+
         public ucGraph()
         {
             InitializeComponent();
@@ -26,11 +32,17 @@ namespace poc_pcr_for_Tester
         private void ucGraph_Load(object sender, EventArgs e)
         {
             Plotter.Init();
-            sm.baselineZeroSet = false;
-            sm.baselineScale = false;
-            //SetScottPlot();
+            sm.baseLineNoScale = false;
+            sm.baseLineScale = true;
+            //SetScottPlot();           
+        }
+
+        private void ucGraph_VisibleChanged(object sender, EventArgs e)
+        {
+            //MatchAndFindOpticDataForResult();
             //plotUpdateFinally();
         }
+
 
         public void graph_Back_Click_Event(object sender, EventArgs e)
         {
@@ -43,7 +55,7 @@ namespace poc_pcr_for_Tester
 
         private void timer1_Tick(object sender, EventArgs e)
         {
-            plotUpdateFinally();
+            //plotUpdateFinally();
         }
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
@@ -81,7 +93,7 @@ namespace poc_pcr_for_Tester
             Plotter.ResetAllPlots(formsPlot1, formsPlot2, formsPlot3, formsPlot4);
             for (int i = 0; i < Plotter.CH_CNT; i++)
             {
-                if(sm.baselineZeroSet || sm.baselineScale)//if (chkBox_baselineNoScale.Checked || chkBox_BaselineScale.Checked)
+                if(sm.baseLineNoScale || sm.baseLineScale)//if (chkBox_baselineNoScale.Checked || chkBox_BaselineScale.Checked)
                 {
                     for (int j = 0; j < Plotter.CH_CNT * Plotter.DYE_CNT; j++)
                     {
@@ -252,5 +264,8 @@ namespace poc_pcr_for_Tester
             plotYouWant.Visible = true;
         }
 
+        
+
+      
     }
 }

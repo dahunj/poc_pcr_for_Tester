@@ -38,6 +38,7 @@ namespace poc_pcr_for_Tester
         ucDeviceConnection dConnection = new ucDeviceConnection();
         ucSelectTest selectTest = new ucSelectTest();
         ucGraph graph = new ucGraph();
+        ucTestReport testReport = new ucTestReport(); 
 
         SharedMemory sm = SharedMemory.GetInstance();
 
@@ -59,10 +60,7 @@ namespace poc_pcr_for_Tester
         bool b_start_Process = false;
         bool b_check_Door = false;
         static int nTimerNo = 0;
-
-     
-
-
+        
         int iRoutine_cnt = 0;
         int iTube_no = 0;
         int iDye = 0;
@@ -106,11 +104,12 @@ namespace poc_pcr_for_Tester
 
             graph.graph_Back_Event += graph_Back_Click;
 
+            
         }
 
         private void UI_for_Tester_Load(object sender, EventArgs e)
         {
-            sm.isFileSaved_In_Local = false;
+            sm.isFileSaved_In_Local = true;
 
             sm.MEASURED_DATA = new string[Plotter.CH_CNT * Plotter.DYE_CNT, Plotter.COL_CNT];
             sm.DISPLAY_DATA = new string[Plotter.CH_CNT * Plotter.DYE_CNT, Plotter.COL_CNT];
@@ -123,6 +122,7 @@ namespace poc_pcr_for_Tester
             panel_ui.Controls.Add(dConnection);
             panel_ui.Controls.Add(selectTest);
             panel_ui.Controls.Add(graph);
+            panel_ui.Controls.Add(testReport);
             panel_ui.Visible = true;
 
             selectPageYouWantToDisplay(dConnection);
@@ -157,7 +157,8 @@ namespace poc_pcr_for_Tester
             testPreparation.Visible = false;
             testStart.Visible = false;
             running.Visible = false;
-            
+            testReport.Visible = false;
+            graph.Visible = false;
 
             pageYouWantToShow.Visible = true;
         }
@@ -261,10 +262,10 @@ namespace poc_pcr_for_Tester
         private void running_NextPage_Click(object sender, EventArgs e)
         {
             //panel_ui
-            selectPageYouWantToDisplay(graph);
+            selectPageYouWantToDisplay(testReport);
 
             //graph process
-            updateOpticDataGraph();
+            //updateOpticDataGraph();
 
         }
 
@@ -273,13 +274,17 @@ namespace poc_pcr_for_Tester
             //1. get measured data
             MatchAndFindOpticDataForResult();
             //2. find and calculate baseline value with standard deviation 
+            FindCyclesForBaseCalculation();
+
             baseCalculationDeviation();
             //3. scale factor calculation 
             scaleFactorCalculation();
             //4. ct cycle calculation 
             CtCyclesCalculation();
+
+            updateDataGridOpticDatas(sm.DISPLAY_DATA);
             //5. update graph 
-            updateAllPlots();
+            //updateAllPlots();
         }
 
         private void graph_Back_Click(object sender, EventArgs e)
@@ -436,13 +441,7 @@ namespace poc_pcr_for_Tester
             //panel_ui
             selectPageYouWantToDisplay(testInfo);
         }
-
-       
-
         //
-
-
-
         struct DataParameter
         {
             public int Delay;
@@ -642,6 +641,14 @@ namespace poc_pcr_for_Tester
                 //_check_Door();
                 //b_check_Door = true;
             }
+            else if (str.Contains("LOG pel_start"))
+            {
+                sm.ProgressPercentage = 5;
+            }
+            else if (str.Equals("PEL: JOB_READY\n") || str.Equals("PEL: JOB_READY\n"))
+            {
+                sm.ProgressPercentage = 10;
+            }
 
 
         }
@@ -834,16 +841,13 @@ namespace poc_pcr_for_Tester
             if (sm.isFileSaved_In_Local)
             {
                 //fileName = sm.currentLogFileName;
-                fileName = sPath + @"\Pcr 2021-03-18 16-57-00.txt";//@"\Pcr 2021-02-16 13-25-31" + ".txt";
+                fileName = sPath + @"\Pcr 2021-03-19 15-02-55.txt";//@"\Pcr 2021-02-16 13-25-31" + ".txt";
             }
             else
             {
                 fileName = sPath + @"\" + sm.current_Log_Name + ".txt"; //di.ToString() + "\\" + str + ".rcp";
             }
             //string fileName = sPath + @"\" + "temp" + ".txt"; //di.ToString() + "\\" + str + ".rcp";
-
-            
-
 
             int line_count = 0;
             string[] lines = File.ReadAllLines(fileName);
@@ -1049,27 +1053,136 @@ namespace poc_pcr_for_Tester
             return Plotter.CtCycles;
         }
 
-        public void updateAllPlots()
+        private void updateDataGridOpticDatas( string[,] stringArray)
         {
-            /*
-            Plotter.ResetAllPlots(formsPlot1, formsPlot2, formsPlot3, formsPlot4);
-            for (int i = 0; i < Plotter.CH_CNT; i++)
+            int iTemp2;
+            
+
+            //dataGridView_Diagnosis.Columns[9].Name = "INH";
+
+            //dataGridView5.Rows[0].DefaultCellStyle.BackColor = Color.AliceBlue;
+
+            string[,] FluoresenceValuesOne = new string[Plotter.DYE_CNT * Plotter.CH_CNT, Plotter.COL_CNT + 1];
+            FluoresenceValuesOne[0, 0] = "FAM";
+            FluoresenceValuesOne[1, 0] = "ROX";
+            FluoresenceValuesOne[2, 0] = "HEX";
+            FluoresenceValuesOne[3, 0] = "CY5";
+            FluoresenceValuesOne[4, 0] = "FAM";
+            FluoresenceValuesOne[5, 0] = "ROX";
+            FluoresenceValuesOne[6, 0] = "HEX";
+            FluoresenceValuesOne[7, 0] = "CY5";
+            FluoresenceValuesOne[8, 0] = "FAM";
+            FluoresenceValuesOne[9, 0] = "ROX";
+            FluoresenceValuesOne[10, 0] = "HEX";
+            FluoresenceValuesOne[11, 0] = "CY5";
+            FluoresenceValuesOne[12, 0] = "FAM";
+            FluoresenceValuesOne[13, 0] = "ROX";
+            FluoresenceValuesOne[14, 0] = "HEX";
+            FluoresenceValuesOne[15, 0] = "CY5";
+
+            string[] temp = new string[Plotter.COL_CNT + 1];
+            int[] iTemp = new int[Plotter.COL_CNT + 1];
+
+            for (int k = 0; k < Plotter.CH_CNT; k++)
             {
-                if (chkBox_baselineNoScale.Checked || chkBox_BaselineScale.Checked)
+                for (int j = 0; j < Plotter.DYE_CNT; j++)
                 {
-                    for (int j = 0; j < Plotter.CH_CNT * Plotter.DYE_CNT; j++)
+                    temp[0] = FluoresenceValuesOne[j, 0];
+                    for (int i = 0; i < Plotter.COL_CNT; i++)
                     {
-                        zerosetValArray[j] = (CtlineVal[j] - BaselineVal[j]) * scaleFactor[j];
+                        if(sm.baseLineNoScale)//if (chkBox_baselineNoScale.Checked)
+                        {
+                            if (i < Plotter.MaxCycleForBaseCalculation)
+                            {
+                                temp[i + 1] = "0"; // 0until bas calculated  
+                            }
+                            else
+                            {
+                                Int32.TryParse(stringArray[Plotter.CH_CNT * k + j, i], out iTemp[i + 1]);
+                                if (iTemp[i + 1] > sm.CtlineVal[j + Plotter.CH_CNT * k])
+                                {
+                                    //temp[i + 1] = (iTemp[i + 1]).ToString();
+                                    temp[i + 1] = ((int)(iTemp[i + 1] - sm.CtlineVal[Plotter.CH_CNT * k + j])).ToString();
+                                }
+                                else
+                                {
+                                    temp[i + 1] = "0";
+                                }
+                                //temp[i + 1] = stringArray[Plotter.CH_CNT * k + j, i];
+                            }
+                        }
+                        else if(sm.baseLineScale)//else if (chkBox_BaselineScale.Checked)
+                        {
+                            if (i < Plotter.MaxCycleForBaseCalculation)
+                            {
+                                temp[i + 1] = "0"; // 0 until bas calculated  
+                            }
+                            else
+                            {
+                                Int32.TryParse(stringArray[Plotter.CH_CNT * k + j, i], out iTemp[i + 1]);
+                                if (iTemp[i + 1] > sm.BaselineVal[j + Plotter.CH_CNT * k])
+                                {
+                                    //temp[i + 1] = (iTemp[i + 1]).ToString();
+                                    //double scaleFactor = (double)(2500 / (2500 - CtlineVal[Plotter.CH_CNT * k + j]));
+
+                                    //temp[i + 1] = ((iTemp[i + 1] - CtlineVal[Plotter.CH_CNT * k + j]) * scaleFactor).ToString();
+                                    temp[i + 1] = ((iTemp[i + 1] - sm.BaselineVal[Plotter.CH_CNT * k + j]) * sm.scaleFactor[j + Plotter.CH_CNT * k]).ToString();
+                                }
+                                else
+                                {
+                                    temp[i + 1] = "0";
+                                }
+                                //temp[i + 1] = stringArray[Plotter.CH_CNT * k + j, i];
+                            }
+                        }
+                        else
+                        {
+                            Int32.TryParse(stringArray[Plotter.CH_CNT * k + j, i], out iTemp[i + 1]);
+                            //if (iTemp[i + 1] > CtlineVal[j + Plotter.CH_CNT * k])
+                            //{
+                            temp[i + 1] = (iTemp[i + 1]).ToString();
+                            //temp[i + 1] = (iTemp[i + 1] - base_calculated[Plotter.CH_CNT*k +j]).ToString();
+                            //}
+                            //else
+                            //{
+                            //temp[i + 1] = "0";
+                            //}
+                        }
+                        double dTemp1;
+                        dTemp1 = Convert.ToDouble(temp[i + 1]);
+                        iTemp2 = (int)dTemp1;
+                        temp[i + 1] = iTemp2.ToString();
+                        sm.DISPLAY_DATA[Plotter.CH_CNT * k + j, i] = iTemp2.ToString();
+                        //DISPLAY_DATA[Plotter.CH_CNT * k + j, i] = (temp[i + 1];
+                        FluoresenceValuesOne[Plotter.CH_CNT * k + j, i + 1] = stringArray[Plotter.CH_CNT * k + j, i];
                     }
-                    updateScottPlot(i, zerosetValArray);
+                    //dgv[k].Rows.Add();
+                    
+                }
+
+            }
+        }
+
+        public void FindCyclesForBaseCalculation()
+        {
+            //dgv_CycleForBaseCalculation.Rows[0].Cells[0].Value = "";
+            //Plotter.isThisCycleWouldbeUsedForBaseCal[0] = dgv_CycleForBaseCalculation.Rows[0].Cells[0].FormattedValue.ToString();
+            Plotter.CycleCntForBaseCal = 0;
+            for (int i = 0; i < 45; i++)
+            {
+                //if (dgv_CycleForBaseCalculation.Rows[0].Cells[i].FormattedValue.ToString() == "v" || dgv_CycleForBaseCalculation.Rows[0].Cells[i].FormattedValue.ToString() == "V")
+                if(Plotter.isThisCycleWouldbeUsedForBaseCal[i] == 1)
+                {
+                    Plotter.CycleCntForBaseCal++;                    
                 }
                 else
                 {
-                    updateScottPlot(i, CtlineVal);
+                    //PASS
+                    //Plotter.isThisCycleWouldbeUsedForBaseCal[i] = 0;
                 }
             }
-            */
         }
+
     }
 
 }

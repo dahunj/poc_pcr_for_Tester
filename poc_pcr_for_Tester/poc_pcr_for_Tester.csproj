@@ -130,6 +130,12 @@
     <Compile Include="ucTestPreparation.Designer.cs">
       <DependentUpon>ucTestPreparation.cs</DependentUpon>
     </Compile>
+    <Compile Include="ucTestReport.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ucTestReport.Designer.cs">
+      <DependentUpon>ucTestReport.cs</DependentUpon>
+    </Compile>
     <Compile Include="ucTestStart.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -180,6 +186,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ucTestPreparation.resx">
       <DependentUpon>ucTestPreparation.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ucTestReport.resx">
+      <DependentUpon>ucTestReport.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ucTestStart.resx">
       <DependentUpon>ucTestStart.cs</DependentUpon>

@@ -33,6 +33,7 @@ namespace poc_pcr_for_Tester
         public string DevicePort { get; set; }
 
         public int routine_cnt { get; set; }
+        public int ProgressPercentage { get; set; }
 
         public string current_Log_Name { get; set; }
         public bool DataUpdateFlag { get; set; }
@@ -47,8 +48,8 @@ namespace poc_pcr_for_Tester
 
         public bool isFileSaved_In_Local;
 
-        public bool baselineZeroSet;
-        public bool baselineScale;
+        public bool baseLineNoScale;
+        public bool baseLineScale;
 
         public double[] CtlineVal = new double[Plotter.DYE_CNT * Plotter.CH_CNT];
         public double[] BaselineVal = new double[Plotter.DYE_CNT * Plotter.CH_CNT];
@@ -56,6 +57,8 @@ namespace poc_pcr_for_Tester
         public double[] zerosetValArray = new double[Plotter.DYE_CNT * Plotter.CH_CNT];
         
         public double[] scaleFactor = new double[Plotter.CH_CNT * Plotter.DYE_CNT];
+
+      
 
         private static SharedMemory _instance = null;
         public static SharedMemory GetInstance()

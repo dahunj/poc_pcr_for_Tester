@@ -7,6 +7,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.IO;
+using poc_pcr_for_Tester.GraphPlot;
 
 namespace poc_pcr_for_Tester
 {
@@ -14,12 +16,22 @@ namespace poc_pcr_for_Tester
     {
         SharedMemory sm = SharedMemory.GetInstance();
 
+
+        int iRoutine_cnt = 0;
+        int iTube_no = 0;
+        int iDye = 0;
+
         public event EventHandler running_NextPage_Event;
+       
+
         public ucRunning()
         {
             InitializeComponent();
             picBox_running_NextPage.Click += running_NextPage_Click_Event;
+          
         }
+
+     
 
         public void running_NextPage_Click_Event(object sender, EventArgs e)
         {
@@ -31,13 +43,16 @@ namespace poc_pcr_for_Tester
         {
                 if(sm.routine_cnt >= 45)
                 {
-                    circularProgressBar1.Value = 100;
+                    sm.ProgressPercentage = 100;
+                    circularProgressBar1.Value = sm.ProgressPercentage;
                     circularProgressBar1.Update();
                 }
                 else
                 {
-                    circularProgressBar1.Value = sm.routine_cnt * 2;
-                    circularProgressBar1.Text = (sm.routine_cnt*2).ToString() + "%";
+                    sm.ProgressPercentage = (10 + sm.routine_cnt * 2);
+
+                    circularProgressBar1.Value = sm.ProgressPercentage;
+                    circularProgressBar1.Text = sm.ProgressPercentage.ToString() + "%";
                     circularProgressBar1.Update();
                 }
         }
@@ -45,7 +60,7 @@ namespace poc_pcr_for_Tester
         private void ucRunning_Load(object sender, EventArgs e)
         {
             timer1.Start();
-            circularProgressBar1.Value = 0;
+            circularProgressBar1.Value = 5;
             circularProgressBar1.Minimum = 0;
             circularProgressBar1.Maximum = 100;
         }
@@ -54,5 +69,13 @@ namespace poc_pcr_for_Tester
         {
             sm.routine_cnt++;
         }
+
+        private void picBox_running_NextPage_Click(object sender, EventArgs e)
+        {
+           
+        }
+
+
+        
     }
 }

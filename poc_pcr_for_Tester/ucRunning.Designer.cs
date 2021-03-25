@@ -109,6 +109,7 @@
             this.picBox_running_NextPage.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.picBox_running_NextPage.TabIndex = 38;
             this.picBox_running_NextPage.TabStop = false;
+            this.picBox_running_NextPage.Click += new System.EventHandler(this.picBox_running_NextPage_Click);
             // 
             // picBox_NextInfoBack
             // 

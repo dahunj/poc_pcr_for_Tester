@@ -40,11 +40,11 @@
             // 
             this.btnTestStart.BackColor = System.Drawing.SystemColors.ButtonHighlight;
             this.btnTestStart.Font = new System.Drawing.Font("Microsoft Sans Serif", 36F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnTestStart.Location = new System.Drawing.Point(340, 573);
+            this.btnTestStart.Location = new System.Drawing.Point(340, 300);
             this.btnTestStart.Name = "btnTestStart";
             this.btnTestStart.Size = new System.Drawing.Size(400, 200);
             this.btnTestStart.TabIndex = 25;
-            this.btnTestStart.Text = "3. Test Start";
+            this.btnTestStart.Text = "Test Start";
             this.btnTestStart.UseVisualStyleBackColor = false;
             this.btnTestStart.Click += new System.EventHandler(this.btnTestStart_Click);
             // 
@@ -52,24 +52,26 @@
             // 
             this.btn_Check_Start.BackColor = System.Drawing.SystemColors.ButtonHighlight;
             this.btn_Check_Start.Font = new System.Drawing.Font("Microsoft Sans Serif", 36F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn_Check_Start.Location = new System.Drawing.Point(340, 338);
+            this.btn_Check_Start.Location = new System.Drawing.Point(599, 561);
             this.btn_Check_Start.Name = "btn_Check_Start";
             this.btn_Check_Start.Size = new System.Drawing.Size(400, 200);
             this.btn_Check_Start.TabIndex = 26;
             this.btn_Check_Start.Text = "2. Check Data";
             this.btn_Check_Start.UseVisualStyleBackColor = false;
+            this.btn_Check_Start.Visible = false;
             this.btn_Check_Start.Click += new System.EventHandler(this.btn_Check_Start_Click);
             // 
             // btn_Send_Protocol
             // 
             this.btn_Send_Protocol.BackColor = System.Drawing.SystemColors.ButtonHighlight;
             this.btn_Send_Protocol.Font = new System.Drawing.Font("Microsoft Sans Serif", 36F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn_Send_Protocol.Location = new System.Drawing.Point(340, 110);
+            this.btn_Send_Protocol.Location = new System.Drawing.Point(3, 32);
             this.btn_Send_Protocol.Name = "btn_Send_Protocol";
             this.btn_Send_Protocol.Size = new System.Drawing.Size(400, 200);
             this.btn_Send_Protocol.TabIndex = 27;
             this.btn_Send_Protocol.Text = "1. Send Protocol Data";
             this.btn_Send_Protocol.UseVisualStyleBackColor = false;
+            this.btn_Send_Protocol.Visible = false;
             this.btn_Send_Protocol.Click += new System.EventHandler(this.btn_Send_Protocol_Click);
             // 
             // picBox_Back

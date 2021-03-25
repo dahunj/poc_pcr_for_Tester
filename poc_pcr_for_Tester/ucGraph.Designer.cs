@@ -281,7 +281,7 @@
             // timer1
             // 
             this.timer1.Enabled = true;
-            this.timer1.Interval = 100000;
+            this.timer1.Interval = 1000;
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
             // picBox_Back
@@ -324,6 +324,7 @@
             this.Name = "ucGraph";
             this.Size = new System.Drawing.Size(1080, 800);
             this.Load += new System.EventHandler(this.ucGraph_Load);
+            this.VisibleChanged += new System.EventHandler(this.ucGraph_VisibleChanged);
             ((System.ComponentModel.ISupportInitialize)(this.picBox_Back)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
