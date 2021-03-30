@@ -42,17 +42,13 @@ namespace poc_pcr_for_Tester
             //MatchAndFindOpticDataForResult();
             //plotUpdateFinally();
         }
-
-
+        
         public void graph_Back_Click_Event(object sender, EventArgs e)
         {
             if (graph_Back_Event != null)
                 graph_Back_Event(sender, e);
         }
-
-       
-
-
+        
         private void timer1_Tick(object sender, EventArgs e)
         {
             //plotUpdateFinally();
@@ -252,8 +248,6 @@ namespace poc_pcr_for_Tester
             }
         }
 
-      
-
         public void showPlotYouWantToDisplay(FormsPlot plotYouWant)
         {
             formsPlot1.Visible = false;
@@ -263,9 +257,5 @@ namespace poc_pcr_for_Tester
 
             plotYouWant.Visible = true;
         }
-
-        
-
-      
     }
 }

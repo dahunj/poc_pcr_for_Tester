@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -38,7 +39,8 @@ namespace poc_pcr_for_Tester
         ucDeviceConnection dConnection = new ucDeviceConnection();
         ucSelectTest selectTest = new ucSelectTest();
         ucGraph graph = new ucGraph();
-        ucTestReport testReport = new ucTestReport(); 
+        ucTestReport testReport = new ucTestReport();
+        ucInterpretation interpretation = new ucInterpretation();
 
         SharedMemory sm = SharedMemory.GetInstance();
 
@@ -73,7 +75,7 @@ namespace poc_pcr_for_Tester
         {
             InitializeComponent();
 
-            sm.testName = "COVID"; //default COVID
+            sm.testName = "TB"; //default COVID
 
             //serial comm Async receive
             serial.ReceivedEvent += GetSerialString;
@@ -85,6 +87,7 @@ namespace poc_pcr_for_Tester
 
             testInfo.btnTestInfoNext_Event += btnTestInfoNext_Click;
             testInfo.testInfo_Back_Event += testInfo_Back_Click;
+            testInfo.testInfo_Exit_Event += Exit_Click;
 
             testPreparation.btnTestPreparationNext_Event += btnTestPreparationNext_Click;
             testPreparation.testPreparation_Back_Event += testPreparation_Back_Click;
@@ -99,12 +102,14 @@ namespace poc_pcr_for_Tester
 
             selectTest.cbBoxSelectTest_Event += selectTest_selectedIndexChanged;
             selectTest.SelectTest_NextPage_Event += selectTestNext_Click;
+            selectTest.selectTest_BackPage_Event += selectTestBack_Click;
 
             running.running_NextPage_Event += running_NextPage_Click;
+            running.running_BackPage_Event += running_BackPage_Click;
 
             graph.graph_Back_Event += graph_Back_Click;
 
-            
+            testReport.testReportNext_Event += testReport_Btn_Next_Click;
         }
 
         private void UI_for_Tester_Load(object sender, EventArgs e)
@@ -123,9 +128,13 @@ namespace poc_pcr_for_Tester
             panel_ui.Controls.Add(selectTest);
             panel_ui.Controls.Add(graph);
             panel_ui.Controls.Add(testReport);
+            panel_ui.Controls.Add(interpretation);
             panel_ui.Visible = true;
 
-            selectPageYouWantToDisplay(dConnection);
+
+            
+            selectPageYouWantToDisplay(interpretation);
+            //selectPageYouWantToDisplay(dConnection);
 
             cmd_dic = new Dictionary<string, string>();
 
@@ -228,6 +237,11 @@ namespace poc_pcr_for_Tester
             selectPageYouWantToDisplay(dConnection);
         }
 
+        private void selectTestBack_Click(object sender, EventArgs e)
+        {
+            selectPageYouWantToDisplay(firstPage);
+        }
+
         /// Test Information page
         private void selectTestNext_Click(object sender, EventArgs e)
         {
@@ -238,6 +252,12 @@ namespace poc_pcr_for_Tester
         {
             selectPageYouWantToDisplay(selectTest);
         }
+
+        private void Exit_Click(object sender, EventArgs ee)
+        {
+            UI_for_Tester_FormClosing(sender, null);
+        }
+
 
         /// Test Information page
         private void btnTestInfoNext_Click(object sender, EventArgs e)
@@ -257,6 +277,11 @@ namespace poc_pcr_for_Tester
         {
             selectPageYouWantToDisplay(testStart);
             SetProtocolAuto(sm.testName);
+        }
+
+        private void running_BackPage_Click(object sender, EventArgs e)
+        {
+            selectPageYouWantToDisplay(testStart);
         }
 
         private void running_NextPage_Click(object sender, EventArgs e)
@@ -287,9 +312,14 @@ namespace poc_pcr_for_Tester
             //updateAllPlots();
         }
 
+        private void testReport_Btn_Next_Click(object sender, EventArgs e)
+        {
+            selectPageYouWantToDisplay(graph);
+        }
+
         private void graph_Back_Click(object sender, EventArgs e)
         {
-            selectPageYouWantToDisplay(testStart);
+            selectPageYouWantToDisplay(running);
         }
 
 
@@ -423,6 +453,7 @@ namespace poc_pcr_for_Tester
 
         private void _start_Process()
         {
+            sm.ProcessEndFlag = false;
             bSaveLog = true;
             logToFile.MakeNewFile();
 
@@ -433,6 +464,7 @@ namespace poc_pcr_for_Tester
         {
             logToFile.CloseFile();
             bSaveLog = false;
+            sm.ProcessEndFlag = false;
         }
 
         /// Firs
@@ -637,20 +669,21 @@ namespace poc_pcr_for_Tester
             }
             else if (str.Equals("pel>Cycledone\n") || str.Equals("pel>Cycledone"))
             {
+                sm.ProcessEndFlag = true;
+
+                selectPageYouWantToDisplay(testReport);
                 //_endProcess();
                 //_check_Door();
                 //b_check_Door = true;
             }
-            else if (str.Contains("LOG pel_start"))
+            else if (str.Contains("LOGpel_startext_seq_id=0") || str.Contains("LOGpel_startext_seq_id=0\n"))
             {
-                sm.ProgressPercentage = 5;
+                sm.ProgressFirst = 8;
             }
-            else if (str.Equals("PEL: JOB_READY\n") || str.Equals("PEL: JOB_READY\n"))
+            else if (str.Equals("PEL:JOB_READY") || str.Equals("PEL:JOB_READY\n"))
             {
-                sm.ProgressPercentage = 10;
+                sm.ProgressFirst = 10;
             }
-
-
         }
 
         private bool Open_exec()
@@ -1183,6 +1216,26 @@ namespace poc_pcr_for_Tester
             }
         }
 
+        private void UI_for_Tester_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (MessageBox.Show("프로그램을 종료하시겠습니까?", "종료 안내", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning) == DialogResult.OK)
+            {
+                // 종료 
+                //e.Cancel = false;                
+                foreach (Process process in Process.GetProcesses())
+                {
+                    //프로그램명으로 시작되는 프로세스를 모두 죽인다. 엉뚱한 프로세스를 죽이지 않게 IF문을 잘 사용한다.
+                    if(process.ProcessName.Contains("poc_pcr_for_Tester"))//if (process.ProcessName.ToUpper().StartsWith("poc_pcr_for_Tester"))
+                    {
+                        process.Kill();
+                    }
+                }
+            }
+            else   // 취소
+            {
+                //e.Cancel = true;
+            }
+        }
     }
 
 }

@@ -56,6 +56,7 @@
             this.picBox_Back = new System.Windows.Forms.PictureBox();
             this.picBox_Save_Click = new System.Windows.Forms.PictureBox();
             this.picBox_Load_Click = new System.Windows.Forms.PictureBox();
+            this.picBox_Exit = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_test_info)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_cartridge_info)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgv_tester_info)).BeginInit();
@@ -63,6 +64,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.picBox_Back)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picBox_Save_Click)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picBox_Load_Click)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picBox_Exit)).BeginInit();
             this.SuspendLayout();
             // 
             // label29
@@ -297,7 +299,7 @@
             // picBox_Save_Click
             // 
             this.picBox_Save_Click.Image = ((System.Drawing.Image)(resources.GetObject("picBox_Save_Click.Image")));
-            this.picBox_Save_Click.Location = new System.Drawing.Point(739, 76);
+            this.picBox_Save_Click.Location = new System.Drawing.Point(823, 164);
             this.picBox_Save_Click.Name = "picBox_Save_Click";
             this.picBox_Save_Click.Size = new System.Drawing.Size(98, 79);
             this.picBox_Save_Click.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -308,7 +310,7 @@
             // picBox_Load_Click
             // 
             this.picBox_Load_Click.Image = ((System.Drawing.Image)(resources.GetObject("picBox_Load_Click.Image")));
-            this.picBox_Load_Click.Location = new System.Drawing.Point(906, 76);
+            this.picBox_Load_Click.Location = new System.Drawing.Point(951, 164);
             this.picBox_Load_Click.Name = "picBox_Load_Click";
             this.picBox_Load_Click.Size = new System.Drawing.Size(90, 79);
             this.picBox_Load_Click.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -316,11 +318,22 @@
             this.picBox_Load_Click.TabStop = false;
             this.picBox_Load_Click.Click += new System.EventHandler(this.picBox_Load_Click_Click);
             // 
+            // picBox_Exit
+            // 
+            this.picBox_Exit.Image = ((System.Drawing.Image)(resources.GetObject("picBox_Exit.Image")));
+            this.picBox_Exit.Location = new System.Drawing.Point(977, 12);
+            this.picBox_Exit.Name = "picBox_Exit";
+            this.picBox_Exit.Size = new System.Drawing.Size(100, 50);
+            this.picBox_Exit.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.picBox_Exit.TabIndex = 41;
+            this.picBox_Exit.TabStop = false;
+            // 
             // ucTestInfo
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.Controls.Add(this.picBox_Exit);
             this.Controls.Add(this.picBox_Load_Click);
             this.Controls.Add(this.picBox_Save_Click);
             this.Controls.Add(this.picBox_Back);
@@ -343,6 +356,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.picBox_Back)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.picBox_Save_Click)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.picBox_Load_Click)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picBox_Exit)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -367,5 +381,6 @@
         private System.Windows.Forms.PictureBox picBox_Back;
         private System.Windows.Forms.PictureBox picBox_Save_Click;
         private System.Windows.Forms.PictureBox picBox_Load_Click;
+        private System.Windows.Forms.PictureBox picBox_Exit;
     }
 }

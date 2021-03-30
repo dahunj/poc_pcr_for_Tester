@@ -31,13 +31,13 @@
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ucRunning));
             this.circularProgressBar1 = new CircularProgressBar.CircularProgressBar();
-            this.lbl_State = new System.Windows.Forms.Label();
+            this.lbl_Status = new System.Windows.Forms.Label();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.button1 = new System.Windows.Forms.Button();
             this.picBox_running_NextPage = new System.Windows.Forms.PictureBox();
-            this.picBox_NextInfoBack = new System.Windows.Forms.PictureBox();
+            this.picBox_Btn_Back = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.picBox_running_NextPage)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.picBox_NextInfoBack)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picBox_Btn_Back)).BeginInit();
             this.SuspendLayout();
             // 
             // circularProgressBar1
@@ -72,16 +72,16 @@
             this.circularProgressBar1.TextMargin = new System.Windows.Forms.Padding(8, 8, 0, 0);
             this.circularProgressBar1.Value = 25;
             // 
-            // lbl_State
+            // lbl_Status
             // 
-            this.lbl_State.AutoSize = true;
-            this.lbl_State.Font = new System.Drawing.Font("Microsoft Sans Serif", 36F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbl_State.ForeColor = System.Drawing.SystemColors.Highlight;
-            this.lbl_State.Location = new System.Drawing.Point(457, 150);
-            this.lbl_State.Name = "lbl_State";
-            this.lbl_State.Size = new System.Drawing.Size(164, 55);
-            this.lbl_State.TabIndex = 1;
-            this.lbl_State.Text = "Ready";
+            this.lbl_Status.AutoSize = true;
+            this.lbl_Status.Font = new System.Drawing.Font("Microsoft Sans Serif", 36F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl_Status.ForeColor = System.Drawing.SystemColors.Highlight;
+            this.lbl_Status.Location = new System.Drawing.Point(457, 150);
+            this.lbl_Status.Name = "lbl_Status";
+            this.lbl_Status.Size = new System.Drawing.Size(164, 55);
+            this.lbl_Status.TabIndex = 1;
+            this.lbl_Status.Text = "Ready";
             // 
             // timer1
             // 
@@ -111,31 +111,31 @@
             this.picBox_running_NextPage.TabStop = false;
             this.picBox_running_NextPage.Click += new System.EventHandler(this.picBox_running_NextPage_Click);
             // 
-            // picBox_NextInfoBack
+            // picBox_Btn_Back
             // 
-            this.picBox_NextInfoBack.Image = ((System.Drawing.Image)(resources.GetObject("picBox_NextInfoBack.Image")));
-            this.picBox_NextInfoBack.Location = new System.Drawing.Point(20, 720);
-            this.picBox_NextInfoBack.Name = "picBox_NextInfoBack";
-            this.picBox_NextInfoBack.Size = new System.Drawing.Size(72, 70);
-            this.picBox_NextInfoBack.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.picBox_NextInfoBack.TabIndex = 39;
-            this.picBox_NextInfoBack.TabStop = false;
+            this.picBox_Btn_Back.Image = ((System.Drawing.Image)(resources.GetObject("picBox_Btn_Back.Image")));
+            this.picBox_Btn_Back.Location = new System.Drawing.Point(20, 720);
+            this.picBox_Btn_Back.Name = "picBox_Btn_Back";
+            this.picBox_Btn_Back.Size = new System.Drawing.Size(72, 70);
+            this.picBox_Btn_Back.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.picBox_Btn_Back.TabIndex = 39;
+            this.picBox_Btn_Back.TabStop = false;
             // 
             // ucRunning
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.Controls.Add(this.picBox_NextInfoBack);
+            this.Controls.Add(this.picBox_Btn_Back);
             this.Controls.Add(this.picBox_running_NextPage);
             this.Controls.Add(this.button1);
-            this.Controls.Add(this.lbl_State);
+            this.Controls.Add(this.lbl_Status);
             this.Controls.Add(this.circularProgressBar1);
             this.Name = "ucRunning";
             this.Size = new System.Drawing.Size(1080, 800);
             this.Load += new System.EventHandler(this.ucRunning_Load);
             ((System.ComponentModel.ISupportInitialize)(this.picBox_running_NextPage)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.picBox_NextInfoBack)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picBox_Btn_Back)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -144,10 +144,10 @@
         #endregion
 
         private CircularProgressBar.CircularProgressBar circularProgressBar1;
-        private System.Windows.Forms.Label lbl_State;
+        private System.Windows.Forms.Label lbl_Status;
         private System.Windows.Forms.Timer timer1;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.PictureBox picBox_running_NextPage;
-        private System.Windows.Forms.PictureBox picBox_NextInfoBack;
+        private System.Windows.Forms.PictureBox picBox_Btn_Back;
     }
 }

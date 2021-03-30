@@ -208,7 +208,7 @@ namespace poc_pcr_for_Tester
 
         }
 
-        private void btnSignIn_Click(object sender, EventArgs e)
+        public void SignIn()
         {
             System.IO.DirectoryInfo di = new System.IO.DirectoryInfo(Application.StartupPath + @"\Data");
             if (!di.Exists) di.Create();
@@ -244,6 +244,8 @@ namespace poc_pcr_for_Tester
                     //{
                     // 엔지니어 계정 로그인임 --> 계정정보에서도 관리 가능
                     this.Visible = false;
+                    this.Enabled = false;
+
                     UI_for_Tester dlg = new UI_for_Tester();
                     dlg.Owner = this;
                     dlg.ShowDialog();
@@ -258,6 +260,28 @@ namespace poc_pcr_for_Tester
             if (!sm.isLoginSucceeded)
             {
                 //MessageBox("Login Failed, Check your ID and Password");
+            }
+        }
+
+
+        private void btnSignIn_Click(object sender, EventArgs e)
+        {
+            SignIn();
+        }
+
+        private void LogIn_KeyDown(object sender, KeyEventArgs e)
+        {
+            if(e.KeyCode == Keys.Enter)
+            {
+                SignIn();
+            }
+        }
+
+        private void tb_LoginID_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                SignIn();
             }
         }
     }

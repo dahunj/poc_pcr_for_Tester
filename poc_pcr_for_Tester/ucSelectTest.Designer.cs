@@ -32,9 +32,9 @@
             this.label1 = new System.Windows.Forms.Label();
             this.cbBox_SelectTest = new System.Windows.Forms.ComboBox();
             this.picBox_SelectTestNext = new System.Windows.Forms.PictureBox();
-            this.picBox_NextInfoBack = new System.Windows.Forms.PictureBox();
+            this.picBox_btn_back = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.picBox_SelectTestNext)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.picBox_NextInfoBack)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picBox_btn_back)).BeginInit();
             this.SuspendLayout();
             // 
             // label1
@@ -70,22 +70,22 @@
             this.picBox_SelectTestNext.TabIndex = 37;
             this.picBox_SelectTestNext.TabStop = false;
             // 
-            // picBox_NextInfoBack
+            // picBox_btn_back
             // 
-            this.picBox_NextInfoBack.Image = ((System.Drawing.Image)(resources.GetObject("picBox_NextInfoBack.Image")));
-            this.picBox_NextInfoBack.Location = new System.Drawing.Point(20, 720);
-            this.picBox_NextInfoBack.Name = "picBox_NextInfoBack";
-            this.picBox_NextInfoBack.Size = new System.Drawing.Size(72, 70);
-            this.picBox_NextInfoBack.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.picBox_NextInfoBack.TabIndex = 38;
-            this.picBox_NextInfoBack.TabStop = false;
+            this.picBox_btn_back.Image = ((System.Drawing.Image)(resources.GetObject("picBox_btn_back.Image")));
+            this.picBox_btn_back.Location = new System.Drawing.Point(20, 720);
+            this.picBox_btn_back.Name = "picBox_btn_back";
+            this.picBox_btn_back.Size = new System.Drawing.Size(72, 70);
+            this.picBox_btn_back.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.picBox_btn_back.TabIndex = 38;
+            this.picBox_btn_back.TabStop = false;
             // 
             // ucSelectTest
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.Controls.Add(this.picBox_NextInfoBack);
+            this.Controls.Add(this.picBox_btn_back);
             this.Controls.Add(this.picBox_SelectTestNext);
             this.Controls.Add(this.cbBox_SelectTest);
             this.Controls.Add(this.label1);
@@ -93,7 +93,7 @@
             this.Size = new System.Drawing.Size(1080, 800);
             this.Load += new System.EventHandler(this.ucSelectTest_Load);
             ((System.ComponentModel.ISupportInitialize)(this.picBox_SelectTestNext)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.picBox_NextInfoBack)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picBox_btn_back)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -104,6 +104,6 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.ComboBox cbBox_SelectTest;
         private System.Windows.Forms.PictureBox picBox_SelectTestNext;
-        private System.Windows.Forms.PictureBox picBox_NextInfoBack;
+        private System.Windows.Forms.PictureBox picBox_btn_back;
     }
 }

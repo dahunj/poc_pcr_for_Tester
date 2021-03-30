@@ -33,7 +33,8 @@ namespace poc_pcr_for_Tester
         public string DevicePort { get; set; }
 
         public int routine_cnt { get; set; }
-        public int ProgressPercentage { get; set; }
+        public int ProgressFirst { get; set; }
+        public int ProgressSecond { get; set; }
 
         public string current_Log_Name { get; set; }
         public bool DataUpdateFlag { get; set; }

@@ -36,10 +36,8 @@
             this.btn_GetPorts = new System.Windows.Forms.Button();
             this.picBox_deviceConnectionNext = new System.Windows.Forms.PictureBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.picBox_NextInfoBack = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.picBox_deviceConnectionNext)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.picBox_NextInfoBack)).BeginInit();
             this.SuspendLayout();
             // 
             // label11
@@ -119,22 +117,11 @@
             this.pictureBox1.TabIndex = 34;
             this.pictureBox1.TabStop = false;
             // 
-            // picBox_NextInfoBack
-            // 
-            this.picBox_NextInfoBack.Image = ((System.Drawing.Image)(resources.GetObject("picBox_NextInfoBack.Image")));
-            this.picBox_NextInfoBack.Location = new System.Drawing.Point(20, 720);
-            this.picBox_NextInfoBack.Name = "picBox_NextInfoBack";
-            this.picBox_NextInfoBack.Size = new System.Drawing.Size(72, 70);
-            this.picBox_NextInfoBack.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.picBox_NextInfoBack.TabIndex = 40;
-            this.picBox_NextInfoBack.TabStop = false;
-            // 
             // ucDeviceConnection
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.Controls.Add(this.picBox_NextInfoBack);
             this.Controls.Add(this.picBox_deviceConnectionNext);
             this.Controls.Add(this.btn_GetPorts);
             this.Controls.Add(this.btn_Connect_Main);
@@ -147,7 +134,6 @@
             this.Load += new System.EventHandler(this.ucDeviceConnection_Load);
             ((System.ComponentModel.ISupportInitialize)(this.picBox_deviceConnectionNext)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.picBox_NextInfoBack)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -162,6 +148,5 @@
         private System.Windows.Forms.Button btn_Connect_Main;
         private System.Windows.Forms.Button btn_GetPorts;
         private System.Windows.Forms.PictureBox picBox_deviceConnectionNext;
-        private System.Windows.Forms.PictureBox picBox_NextInfoBack;
     }
 }

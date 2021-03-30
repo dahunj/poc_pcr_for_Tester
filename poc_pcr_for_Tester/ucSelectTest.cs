@@ -21,15 +21,24 @@ namespace poc_pcr_for_Tester
 
         public event EventHandler cbBoxSelectTest_Event;
         public event EventHandler SelectTest_NextPage_Event;
+        public event EventHandler selectTest_BackPage_Event;
+
         public ucSelectTest()
         {
             InitializeComponent();
             cbBox_SelectTest.SelectedIndexChanged += cbBox_SelectedIndexChanged_Event;
             picBox_SelectTestNext.Click += SelectTest_NextPage_Click_Event;
+            picBox_btn_back.Click += selectTest_BackPage_Click_Event;
         }
         private void ucSelectTest_Load(object sender, EventArgs e)
         {
              
+        }
+
+        public void selectTest_BackPage_Click_Event(object sender, EventArgs e)
+        {
+            if (selectTest_BackPage_Event != null)
+                selectTest_BackPage_Event(sender, e);
         }
 
         public void cbBox_SelectedIndexChanged_Event(object sender, EventArgs e)

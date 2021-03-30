@@ -102,6 +102,7 @@
             this.tb_LoginID.Name = "tb_LoginID";
             this.tb_LoginID.Size = new System.Drawing.Size(400, 37);
             this.tb_LoginID.TabIndex = 8;
+            this.tb_LoginID.KeyDown += new System.Windows.Forms.KeyEventHandler(this.tb_LoginID_KeyDown);
             // 
             // tb_LoginPW
             // 
@@ -111,6 +112,7 @@
             this.tb_LoginPW.Name = "tb_LoginPW";
             this.tb_LoginPW.Size = new System.Drawing.Size(400, 37);
             this.tb_LoginPW.TabIndex = 9;
+            this.tb_LoginPW.KeyDown += new System.Windows.Forms.KeyEventHandler(this.LogIn_KeyDown);
             // 
             // cb_Port_Main
             // 
@@ -185,7 +187,9 @@
             this.Controls.Add(this.label2);
             this.Controls.Add(this.panel1);
             this.Name = "LogIn";
+            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.Load += new System.EventHandler(this.LogIn_Load);
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.LogIn_KeyDown);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             this.ResumeLayout(false);

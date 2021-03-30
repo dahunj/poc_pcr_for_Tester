@@ -67,6 +67,7 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "UI_for_Tester";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.UI_for_Tester_FormClosing);
             this.Load += new System.EventHandler(this.UI_for_Tester_Load);
             this.ResumeLayout(false);
 

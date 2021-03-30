@@ -15,6 +15,7 @@ namespace poc_pcr_for_Tester
     {
         public event EventHandler btnTestInfoNext_Event;
         public event EventHandler testInfo_Back_Event;
+        public event EventHandler testInfo_Exit_Event;
 
         SharedMemory sm = SharedMemory.GetInstance();
 
@@ -24,15 +25,26 @@ namespace poc_pcr_for_Tester
             InitializeComponent();
             picBox_TestInfoNext.Click += btnTestInfoNext_Click_Event;
             picBox_Back.Click += testInfo_Back_Click_Event;
+            picBox_Exit.Click += Exit_Click_Event;
         }
 
         private void ucTestInfo_Load_1(object sender, EventArgs e)
         {
             //sm.testName = "COVID";
             //load
-            string[] row0 = { sm.testName, DateTime.Now.ToString("yyyy-MM-dd / HH:mm:ss") };
+            sm.StartTime = DateTime.Now.ToString("yyyy-MM-dd / HH:mm:ss");
+            string[] row0 = { sm.testName, sm.StartTime };
             dgv_test_info.Rows.Add(row0);
         }
+
+        public void Exit_Click_Event(object sender, EventArgs e)
+        {
+            if (testInfo_Exit_Event != null)
+                testInfo_Exit_Event(sender, e);
+        }
+
+
+
 
         public void testInfo_Back_Click_Event(object sender, EventArgs e)
         {
@@ -131,8 +143,8 @@ namespace poc_pcr_for_Tester
             string fileName = di.ToString() + "\\COVID.txt";
 
             StreamWriter sw = new StreamWriter(fileName, true);
-
-            string buff = dgv_TestInfo.Rows[0].Cells[0].Value.ToString() + "," + dgv_TestInfo.Rows[0].Cells[1].Value.ToString() + ",";
+            string buff = "";
+            //string buff = dgv_TestInfo.Rows[0].Cells[0].Value.ToString() + "," + dgv_TestInfo.Rows[0].Cells[1].Value.ToString() + ",";
                         //+ dgv_tester_info.Rows[0].Cells[0].Value.ToString() + "," + dgv_tester_info.Rows[0].Cells[1].Value.ToString() + ","
                         //+ dgv_cartridge_info.Rows[0].Cells[0].Value.ToString() + "," + dgv_cartridge_info.Rows[0].Cells[1].Value.ToString() + ","
                         //+ dgv_cartridge_info.Rows[0].Cells[2].Value.ToString()
@@ -160,6 +172,15 @@ namespace poc_pcr_for_Tester
                 char[] sep = { ',' };
 
                 string[] result = temp.Split(sep);
+
+                sm.testName = result[0];
+
+                sm.userName = result[2];
+                sm.userID = result[3];
+
+                sm.PatientID = result[4];
+                sm.SampleID = result[5];
+                sm.CartridgeID = result[6];
 
                 dgv_test_info.Rows[0].Cells[0].Value = result[0];
                 dgv_tester_info.Rows[0].Cells[0].Value = result[2];
@@ -192,11 +213,8 @@ namespace poc_pcr_for_Tester
                 //{
                 //    data6[index++] = item;
                 //}
-
                 
-
                 //dataGridView_Manage.Rows.Add(result);
-            
         }
 
         private void ucTestInfo_VisibleChanged(object sender, EventArgs e)

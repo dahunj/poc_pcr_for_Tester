@@ -22,37 +22,52 @@ namespace poc_pcr_for_Tester
         int iDye = 0;
 
         public event EventHandler running_NextPage_Event;
+        public event EventHandler running_BackPage_Event;
        
 
         public ucRunning()
         {
             InitializeComponent();
             picBox_running_NextPage.Click += running_NextPage_Click_Event;
-          
+            picBox_Btn_Back.Click += running_BackPage_Click_Event;
+            sm.ProgressFirst = 5;
         }
-
-     
-
+        
         public void running_NextPage_Click_Event(object sender, EventArgs e)
         {
             if (this.running_NextPage_Event != null)
                 running_NextPage_Event(sender, e);
+        }
+
+        public void running_BackPage_Click_Event(object sender, EventArgs e)
+        {
+            if (this.running_BackPage_Event != null)
+                running_BackPage_Event(sender, e);
         }
         
         private void timer1_Tick(object sender, EventArgs e)
         {
                 if(sm.routine_cnt >= 45)
                 {
-                    sm.ProgressPercentage = 100;
-                    circularProgressBar1.Value = sm.ProgressPercentage;
+                    if(sm.ProcessEndFlag)
+                    {
+                        lbl_Status.Text = "Finished";
+                        lbl_Status.ForeColor = Color.OrangeRed;
+                        sm.ProcessEndFlag = false;
+                        
+                    }
+                    circularProgressBar1.Value = sm.ProgressFirst + sm.ProgressSecond;
                     circularProgressBar1.Update();
                 }
                 else
                 {
-                    sm.ProgressPercentage = (10 + sm.routine_cnt * 2);
+                    lbl_Status.Text = "Running";
+                    lbl_Status.ForeColor = Color.LawnGreen;
+                
+                    sm.ProgressSecond = ( sm.routine_cnt * 2);
 
-                    circularProgressBar1.Value = sm.ProgressPercentage;
-                    circularProgressBar1.Text = sm.ProgressPercentage.ToString() + "%";
+                    circularProgressBar1.Value = sm.ProgressFirst + sm.ProgressSecond;//sm.ProgressPercentage;
+                    circularProgressBar1.Text = (sm.ProgressFirst + sm.ProgressSecond).ToString() + "%";
                     circularProgressBar1.Update();
                 }
         }
