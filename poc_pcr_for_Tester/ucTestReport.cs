@@ -162,19 +162,12 @@ namespace poc_pcr_for_Tester
                 dgv_analyticResult.Columns[8].Name = "RIF5";
                 dgv_analyticResult.Columns[8].MinimumWidth = 115;
 
-
                 dgv_analyticResult.SelectionMode = DataGridViewSelectionMode.CellSelect;
                 dgv_analyticResult.MultiSelect = false;
 
-
                 string[] Ct = { "Ct", "", "", "", "", "", "" };
                 string[] result = { "Result", "", "", "", "", "", "" };
-
-
             }
-
-
-           
         }
 
         public void update_analytic_result()
